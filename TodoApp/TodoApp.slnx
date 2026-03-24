@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="../TodoApp.Data/TodoApp.Data.csproj" />
   <Project Path="../TodoApp.Services/TodoApp.Services.csproj" />
+  <Project Path="../TodoAppTests/TodoAppTests.csproj" Id="55bac8d2-0988-4616-b649-628b8ebd3049" />
   <Project Path="TodoApp.csproj" />
 </Solution>

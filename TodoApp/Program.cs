@@ -30,9 +30,11 @@ namespace TodoApp
         private static void ShowWelcomeMenu()
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("====================================");
             Console.WriteLine("            TODO APP");
             Console.WriteLine("====================================");
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("1. Register");
             Console.WriteLine("2. Login");
             Console.WriteLine("0. Exit");
@@ -112,17 +114,20 @@ namespace TodoApp
         private static void ShowUserMenu()
         {
             Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("====================================");
-            Console.WriteLine($"Logged user: {loggedUser!.Username}");
+            Console.WriteLine($"User: {loggedUser!.Username}");
             Console.WriteLine("====================================");
+            Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("1. Add Task");
-            Console.WriteLine("2. Show All Tasks");
-            Console.WriteLine("3. Show Completed Tasks");
-            Console.WriteLine("4. Show Pending Tasks");
-            Console.WriteLine("5. Complete Task");
-            Console.WriteLine("6. Edit Task");
-            Console.WriteLine("7. Delete Task");
-            Console.WriteLine("8. Logout");
+            Console.WriteLine("2. View Tasks");
+            Console.WriteLine("3. Manage Tasks");
+            Console.WriteLine("4. Logout");
+            Console.ResetColor();
+
             Console.Write("Choose option: ");
 
             string? input = Console.ReadLine();
@@ -136,25 +141,10 @@ namespace TodoApp
                     ShowTasks(taskService.GetTasksByUser(loggedUser!.Id));
                     break;
                 case "3":
-                    ShowTasks(taskService.GetCompletedTasksByUser(loggedUser!.Id));
+                    ManageTasksMenu();
                     break;
                 case "4":
-                    ShowTasks(taskService.GetPendingTasksByUser(loggedUser!.Id));
-                    break;
-                case "5":
-                    CompleteTask();
-                    break;
-                case "6":
-                    EditTask();
-                    break;
-                case "7":
-                    DeleteTask();
-                    break;
-                case "8":
                     loggedUser = null;
-                    break;
-                default:
-                    ShowMessage("Invalid option.");
                     break;
             }
         }
@@ -298,10 +288,58 @@ namespace TodoApp
 
         private static void ShowMessage(string message)
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine();
             Console.WriteLine(message);
+            Console.ResetColor();
+
             Console.WriteLine("Press Enter to continue...");
             Console.ReadLine();
+        }
+        private static void ManageTasksMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("=== Manage Tasks ===");
+                Console.ResetColor();
+
+                Console.WriteLine("1. Show Completed Tasks");
+                Console.WriteLine("2. Show Pending Tasks");
+                Console.WriteLine("3. Complete Task");
+                Console.WriteLine("4. Edit Task");
+                Console.WriteLine("5. Delete Task");
+                Console.WriteLine("0. Back");
+
+                Console.Write("Choose option: ");
+                string? input = Console.ReadLine();
+
+                switch (input)
+                {
+                    case "1":
+                        ShowTasks(taskService.GetCompletedTasksByUser(loggedUser!.Id));
+                        break;
+                    case "2":
+                        ShowTasks(taskService.GetPendingTasksByUser(loggedUser!.Id));
+                        break;
+                    case "3":
+                        CompleteTask();
+                        break;
+                    case "4":
+                        EditTask();
+                        break;
+                    case "5":
+                        DeleteTask();
+                        break;
+                    case "0":
+                        return;
+                    default:
+                        ShowMessage("Invalid option.");
+                        break;
+                }
+            }
         }
     }
 }
